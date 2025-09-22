@@ -3,8 +3,9 @@ import AboutSection from '@/app/components/sections/about2/AboutSection';
 import Products from '@/app/components/sections/products/ProductsSection';
 import Testimonials from '@/app/components/sections/testimonials/TestimonialsSection';
 import BreadCrumb from '@/app/components/ui/bredCrumb/BreadCrumb';
-import React from 'react';
-
+export const metadata = {
+    title: 'About Us'
+};
 const page = () => {
     return (
         <div>

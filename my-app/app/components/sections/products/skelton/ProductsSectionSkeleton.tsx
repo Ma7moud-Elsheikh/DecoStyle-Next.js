@@ -7,8 +7,8 @@ const ProductsSectionSkeleton: React.FC = () => {
             <div className="bg-gray-200 h-[40rem] animate-pulse rounded"></div>
 
             <div className="flex flex-col gap-6">
-                <div className="bg-gray-200 h-[20rem] animate-pulse rounded"></div>
-                <div className="bg-gray-200 h-[20rem] animate-pulse rounded"></div>
+                <div className="bg-gray-200 h-[calc(20rem-0.75rem)] animate-pulse rounded"></div>
+                <div className="bg-gray-200 h-[calc(20rem-0.75rem)] animate-pulse rounded"></div>
             </div>
 
             <div className="bg-gray-200 h-[40rem] animate-pulse rounded"></div>

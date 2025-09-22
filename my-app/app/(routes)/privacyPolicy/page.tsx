@@ -2,6 +2,10 @@ import PrivacyPage from '@/app/components/sections/PrivactPolicy/PrivacyPage';
 import BreadCrumb from '@/app/components/ui/bredCrumb/BreadCrumb';
 import React from 'react';
 
+export const metadata = {
+    title: 'Privacy Policy'
+};
+
 const page = () => {
     return (
         <div>

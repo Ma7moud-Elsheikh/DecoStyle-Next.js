@@ -1,33 +1,57 @@
-
-import React from 'react';
-import Link from 'next/link';
 import BreadCrumb from '@/app/components/ui/bredCrumb/BreadCrumb';
-import RelatedProducts from '@/app/components/ui/productsPage/RelatedProducts';
-import ProductCartButton from '@/app/components/ui/productsPage/ProductCartButton';
 import ZoomImage from '@/app/components/ui/image effect/ZoomImage';
+import ProductCartButton from '@/app/components/ui/productsPage/ProductCartButton';
+import RelatedProducts from '@/app/components/ui/productsPage/RelatedProducts';
+import Link from 'next/link';
 
 type Props = {
-    params: Promise<{ slug: string }>;
+    params: { slug: string };
 };
 
 // Get single product by slug
 const getProduct = async (slug: string) => {
-    const res = await fetch(`http://localhost:1337/api/products?filters[slug][$eq]=${slug}&populate=*`, { cache: 'no-store' });
+    const res = await fetch(
+        `http://localhost:1337/api/products?filters[slug][$eq]=${slug}&populate=*`,
+        { cache: 'no-store' }
+    );
     if (!res.ok) throw new Error('Failed to fetch product');
     const data = await res.json();
     return data.data?.[0] || null;
 };
 
+export async function generateMetadata({ params }: Props) {
+    const product = await getProduct(params.slug);
+
+    if (!product) {
+        return {
+            title: 'Product Not Found',
+            icons: {
+                icon: '/logo2.png'
+            }
+        };
+    }
+
+    return {
+        title: `${product.name}`,
+        icons: {
+            icon: '/logo2.png'
+        }
+    };
+}
+
 // Get related products
 const getRelatedProducts = async (category: string, excludeSlug: string) => {
-    const res = await fetch(`http://localhost:1337/api/products?filters[category][$eq]=${category}&filters[slug][$ne]=${excludeSlug}&populate=*`, { cache: 'no-store' });
+    const res = await fetch(
+        `http://localhost:1337/api/products?filters[category][$eq]=${category}&filters[slug][$ne]=${excludeSlug}&populate=*`,
+        { cache: 'no-store' }
+    );
     if (!res.ok) throw new Error('Failed to fetch related products');
     const data = await res.json();
     return data.data || [];
 };
 
-const SingleProductPage = async (props: Props) => {
-    const { slug } = await props.params;
+const SingleProductPage = async ({ params }: Props) => {
+    const { slug } = params;
 
     const product = await getProduct(slug);
     if (!product) {
@@ -44,7 +68,9 @@ const SingleProductPage = async (props: Props) => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-10">
                     {/* Sidebar - Related Products */}
                     <aside className="lg:col-span-4 space-y-6">
-                        <h2 className="text-xl font-semibold text-gray-800 border-b pb-3">Related Products</h2>
+                        <h2 className="text-xl font-semibold text-gray-800 border-b pb-3">
+                            Related Products
+                        </h2>
                         <RelatedProducts
                             category={category}
                             products={relatedProducts.map((item: any) => ({
@@ -59,7 +85,13 @@ const SingleProductPage = async (props: Props) => {
                         {/* Product Image with Zoom Hover */}
                         <div className="relative w-full h-[450px] rounded-2xl overflow-hidden shadow-lg group bg-white">
                             <Link href={`/products/${productSlug}`} className="block w-full h-full">
-                                <ZoomImage src={product_img?.[0]?.url ? `http://localhost:1337${product_img[0].url}` : '/image/placeholder.png'} />
+                                <ZoomImage
+                                    src={
+                                        product_img?.[0]?.url
+                                            ? `http://localhost:1337${product_img[0].url}`
+                                            : '/image/placeholder.png'
+                                    }
+                                />
                             </Link>
                         </div>
 
@@ -67,7 +99,9 @@ const SingleProductPage = async (props: Props) => {
                         <div className="text-center space-y-4">
                             <h1 className="text-4xl font-bold text-gray-900">{name}</h1>
                             <p className="text-gray-600 max-w-2xl mx-auto">{description}</p>
-                            <span className="text-3xl font-bold text-[var(--main-color)]">${price}</span>
+                            <span className="text-3xl font-bold text-[var(--main-color)]">
+                                ${price}
+                            </span>
                         </div>
 
                         {/* Actions */}
@@ -78,7 +112,9 @@ const SingleProductPage = async (props: Props) => {
                                     name,
                                     price,
                                     slug: productSlug,
-                                    image: product_img?.[0]?.url ? `http://localhost:1337${product_img[0].url}` : '/image/placeholder.png'
+                                    image: product_img?.[0]?.url
+                                        ? `http://localhost:1337${product_img[0].url}`
+                                        : '/image/placeholder.png'
                                 }}
                             />
                         </div>

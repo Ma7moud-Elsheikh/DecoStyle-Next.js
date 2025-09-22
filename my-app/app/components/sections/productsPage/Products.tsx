@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
-import 'glightbox/dist/css/glightbox.min.css';
-import ProductPageCards, { ProductCard } from '../../ui/productsPage/ProductPageCards';
-import Lottie from 'lottie-react';
-import TrailLoading from '../../../../public/animation/Trail loading.json';
-import ProductCardSkeleton from '../../ui/productsPage/skilton/ProductCardSkeleton';
 import axios from 'axios';
+import 'glightbox/dist/css/glightbox.min.css';
+import type { ReactNode } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CustomContainer from '../../common/CustomContainer';
+import ProductPageCards, { ProductCard } from '../../ui/productsPage/ProductPageCards';
+import ProductCardSkeleton from '../../ui/productsPage/skilton/ProductCardSkeleton';
 
 // categories
 const DEFAULT_CATEGORIES = ['all', 'design', 'anime', 'nature', 'animal'] as const;
@@ -22,7 +20,13 @@ interface Props {
     className?: string;
 }
 
-const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES as unknown as Category[], enableLightbox = true, children, className = '' }) => {
+const ProductsPage: React.FC<Props> = ({
+    items,
+    categories = DEFAULT_CATEGORIES as unknown as Category[],
+    enableLightbox = true,
+    children,
+    className = ''
+}) => {
     const [active, setActive] = useState<Category>('all');
     const gridRef = useRef<HTMLDivElement | null>(null);
     const isoRef = useRef<any>(null);
@@ -147,7 +151,9 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                     id: item.id.toString(),
                     title: item.name,
                     slug: item.slug,
-                    image: item.product_img?.[0]?.url ? `http://localhost:1337${item.product_img[0].url}` : '/image/placeholder.png',
+                    image: item.product_img?.[0]?.url
+                        ? `http://localhost:1337${item.product_img[0].url}`
+                        : '/image/placeholder.png',
                     category: item.category,
                     description: item.description,
                     price: item.price,
@@ -157,11 +163,14 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                 setProducts(productsData);
 
                 // console.log(res.data.data);
-                const uniqueCategories = ['all', ...new Set(res.data.data.map((item: any) => item.category))];
+                const uniqueCategories = [
+                    'all',
+                    ...new Set(res.data.data.map((item: any) => item.category))
+                ];
                 // console.log(uniqueCategories);
                 setCategoriesData(uniqueCategories as Category[]);
             } catch (error) {
-                console.error('Error fetching products:', error);
+                setIsLoading(true);
             } finally {
                 setIsLoading(false);
             }
@@ -197,12 +206,16 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
     }, [products]);
 
     return (
-        <section className={`py-12 md:py-16 lg:py-20 ${className}`} style={{ backgroundColor: 'var(--bg-color)' }}>
+        <section
+            className={`py-12 md:py-16 lg:py-20 ${className}`}
+            style={{ backgroundColor: 'var(--bg-color)' }}
+        >
             <CustomContainer>
                 {/* heading */}
                 <div className="mb-10 text-center">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-                        <span style={{ color: 'var(--main-color)' }}>Our</span> <span style={{ color: 'var(--heading-color)' }}>Products</span>
+                        <span style={{ color: 'var(--main-color)' }}>Our</span>{' '}
+                        <span style={{ color: 'var(--heading-color)' }}>Products</span>
                     </h2>
                 </div>
 
@@ -213,7 +226,9 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                             key={cat}
                             onClick={() => setActive(cat)}
                             className={`px-4 py-2 cursor-pointer rounded-full border text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--main-color)] ${
-                                active === cat ? 'bg-[var(--main-color)] text-white border-[var(--main-color)] shadow' : 'bg-white text-[var(--heading-color)] border-[var(--heading-color)]/30 hover:border-[var(--heading-color)]'
+                                active === cat
+                                    ? 'bg-[var(--main-color)] text-white border-[var(--main-color)] shadow'
+                                    : 'bg-white text-[var(--heading-color)] border-[var(--heading-color)]/30 hover:border-[var(--heading-color)]'
                             }`}
                             aria-pressed={active === cat}
                         >
@@ -226,14 +241,22 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                 <div ref={gridRef} className="isotope-grid relative gap-6">
                     <div className="grid-sizer w-full sm:w-1/2 md:w-1/3 lg:w-1/4"></div>
 
-                    {isLoading ? <ProductCardSkeleton count={1} /> : <ProductPageCards items={products} />}
+                    {isLoading ? (
+                        <ProductCardSkeleton count={1} />
+                    ) : (
+                        <ProductPageCards items={products} />
+                    )}
                     {children}
                 </div>
 
                 {/* Pagination */}
                 <div className="flex items-center justify-center space-x-2 mt-8">
                     <button
-                        className={`px-4 py-2 rounded-full transition-colors cursor-pointer ${currentPage === 1 ? 'bg-[var(--main-color)]/30 text-white !cursor-not-allowed' : 'bg-[var(--main-color)] text-white hover:bg-[var(--third-color)]'}`}
+                        className={`px-4 py-2 rounded-full transition-colors cursor-pointer ${
+                            currentPage === 1
+                                ? 'bg-[var(--main-color)]/30 text-white !cursor-not-allowed'
+                                : 'bg-[var(--main-color)] text-white hover:bg-[var(--third-color)]'
+                        }`}
                         onClick={() => setCurrentPage((prev) => prev - 1)}
                         disabled={currentPage === 1}
                     >
@@ -241,13 +264,25 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                     </button>
 
                     {Array.from({ length: pageNumber }, (_, i) => (
-                        <button key={i} onClick={() => setCurrentPage(i + 1)} className={`px-4 py-2 rounded-full cursor-pointer ${currentPage === i + 1 ? 'bg-[var(--third-color)] text-white' : 'text-[var(--third-color)]'}`}>
+                        <button
+                            key={i}
+                            onClick={() => setCurrentPage(i + 1)}
+                            className={`px-4 py-2 rounded-full cursor-pointer ${
+                                currentPage === i + 1
+                                    ? 'bg-[var(--third-color)] text-white'
+                                    : 'text-[var(--third-color)]'
+                            }`}
+                        >
                             {i + 1}
                         </button>
                     ))}
 
                     <button
-                        className={`px-4 py-2 rounded-full transition-colors cursor-pointer ${currentPage === pageNumber ? 'bg-[var(--main-color)]/30 text-white !cursor-not-allowed' : 'bg-[var(--main-color)] text-white hover:bg-[var(--third-color)]'}`}
+                        className={`px-4 py-2 rounded-full transition-colors cursor-pointer ${
+                            currentPage === pageNumber
+                                ? 'bg-[var(--main-color)]/30 text-white !cursor-not-allowed'
+                                : 'bg-[var(--main-color)] text-white hover:bg-[var(--third-color)]'
+                        }`}
                         onClick={() => setCurrentPage((prev) => prev + 1)}
                         disabled={currentPage === pageNumber}
                     >

@@ -7,11 +7,10 @@ const BreadCrumb = () => {
     const pathname = usePathname();
     const pathSegments = pathname.split('/').filter((segment) => segment);
 
-    // آخر جزء عشان يبقى عنوان الصفحة
     const pageTitle =
         pathSegments.length > 0
             ? pathSegments[pathSegments.length - 1].charAt(0).toUpperCase() +
-              pathSegments[pathSegments.length - 1].slice(1)
+            pathSegments[pathSegments.length - 1].slice(1)
             : 'Home';
 
     return (
