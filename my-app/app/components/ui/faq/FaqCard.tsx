@@ -25,7 +25,7 @@ const FaqCard: React.FC<FaqCardProps> = ({ id, title, body, isOpen, onToggle }) 
                             onToggle();
                         }
                     }}
-                    className={`w-full flex items-center cursor-pointer justify-between text-left px-5 py-4 font-semibold transition-colors duration-300
+                    className={`w-full flex items-center cursor-pointer justify-between text-left sm:px-5 sm:py-4 px-3 py-2 font-semibold transition-colors duration-300
             ${isOpen ? 'text-[var(--main-color)]' : 'text-[var(--heading-color)]'}`}
                 >
                     <span className="pr-6 leading-snug text-[17px]">{title}</span>

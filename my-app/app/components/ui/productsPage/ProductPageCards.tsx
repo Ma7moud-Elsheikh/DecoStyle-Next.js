@@ -7,11 +7,13 @@ import { FaRegHeart, FaEye, FaStar, FaHeart } from 'react-icons/fa6';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/app/components/ui/productsPage/dialog';
 import { Button } from '@/app/components/ui/productsPage/button';
 import toast from 'react-hot-toast';
+import ProductCartButton from './ProductCartButton';
 
 export type ProductCard = {
     id: string;
     title?: string;
     image: string;
+    slug: string;
     category: string;
     description?: string;
     price?: string;
@@ -26,7 +28,7 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
     const LOCAL_KEY = 'wishlist';
     const [selected, setSelected] = useState<ProductCard | null>(null);
 
-    // ✅ Lazy initialization + objects
+    // Lazy initialization + objects
     const [wishlist, setWishlist] = useState<ProductCard[]>(() => {
         if (typeof window !== 'undefined') {
             try {
@@ -39,7 +41,7 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
         return [];
     });
 
-    // ✅ sync tabs with storage event
+    // sync tabs with storage event
     useEffect(() => {
         const onStorage = (e: StorageEvent) => {
             if (e.key !== LOCAL_KEY) return;
@@ -53,12 +55,12 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
         return () => window.removeEventListener('storage', onStorage);
     }, []);
 
-    // ✅ update localStorage when wishlist changes
+    // update localStorage when wishlist changes
     useEffect(() => {
         localStorage.setItem(LOCAL_KEY, JSON.stringify(wishlist));
     }, [wishlist]);
 
-    // ✅ toggle with prev state
+    // toggle with prev state
     const toggleWishlist = (product: ProductCard) => {
         let message = '';
 
@@ -113,7 +115,7 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
                         </button>
 
                         {/* product image */}
-                        <Link href={`/products/${it.id}`}>
+                        <Link href={`/products/${it.slug}`}>
                             <Image src={it.image} alt={it.title || 'item'} width={800} height={600} className="w-full min-h-[30rem] object-cover transition-transform duration-700 group-hover:scale-110 z-0" />
                         </Link>
 
@@ -123,7 +125,7 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
                             lg:left-[-100%] lg:group-hover:left-0 z-10"
                         >
                             <h2 className="text-lg font-bold text-white">
-                                <Link href={`/products/${it.id}`} className="transition-colors duration-500 text-[var(--third-color)] hover:text-[var(--main-color)] text-2xl">
+                                <Link href={`/products/${it.slug}`} className="transition-colors duration-500 text-[var(--third-color)] hover:text-[var(--main-color)] text-2xl">
                                     {it.title}
                                 </Link>
                             </h2>
@@ -144,7 +146,9 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
                             </DialogHeader>
 
                             <div className="flex-1 flex flex-col items-center px-4 w-full">
-                                <img src={selected.image} alt={selected.title || 'product'} className="h-[490px] w-full object-cover rounded-lg" />
+                                <Link href={`/products/${selected.slug}`}>
+                                    <Image src={selected.image} alt={selected.title || 'product'} width={600} height={490} className="h-[490px] w-full object-cover rounded-lg" />
+                                </Link>
 
                                 <div className="w-full mt-4 flex justify-between items-center text-gray-700">
                                     <span className="font-bold text-lg">${selected.price || '0.00'}</span>
@@ -161,9 +165,15 @@ const ProductPageCards: React.FC<Props> = ({ items }) => {
                                 <Button className="cursor-pointer" variant="outline" onClick={() => setSelected(null)}>
                                     Close
                                 </Button>
-                                <Button onClick={() => toggleWishlist(selected)} className="bg-[var(--main-color)] cursor-pointer text-white hover:bg-[var(--third-color)]">
-                                    {isInWishlist(selected.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                                </Button>
+                                <ProductCartButton
+                                    product={{
+                                        id: selected.id,
+                                        name: selected.title ?? '',
+                                        price: selected.price,
+                                        slug: selected.slug,
+                                        image: selected.image
+                                    }}
+                                />
                             </div>
                         </>
                     )}

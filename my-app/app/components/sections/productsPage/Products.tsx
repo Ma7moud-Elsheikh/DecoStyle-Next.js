@@ -146,6 +146,7 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                 const productsData: ProductCard[] = res.data.data.map((item: any) => ({
                     id: item.id.toString(),
                     title: item.name,
+                    slug: item.slug,
                     image: item.product_img?.[0]?.url ? `http://localhost:1337${item.product_img[0].url}` : '/image/placeholder.png',
                     category: item.category,
                     description: item.description,
@@ -240,7 +241,7 @@ const ProductsPage: React.FC<Props> = ({ items, categories = DEFAULT_CATEGORIES 
                     </button>
 
                     {Array.from({ length: pageNumber }, (_, i) => (
-                        <button key={i} onClick={() => setCurrentPage(i + 1)} className={`px-4 py-2 rounded-full ${currentPage === i + 1 ? 'bg-[var(--third-color)] text-white' : 'text-[var(--third-color)]'}`}>
+                        <button key={i} onClick={() => setCurrentPage(i + 1)} className={`px-4 py-2 rounded-full cursor-pointer ${currentPage === i + 1 ? 'bg-[var(--third-color)] text-white' : 'text-[var(--third-color)]'}`}>
                             {i + 1}
                         </button>
                     ))}

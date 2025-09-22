@@ -1,8 +1,11 @@
+"use client";
+
 import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 
 interface ZoomImageProps {
     src: string;
+    className?: string;
 }
 
 const ZoomImage: React.FC<ZoomImageProps> = ({ src }) => {

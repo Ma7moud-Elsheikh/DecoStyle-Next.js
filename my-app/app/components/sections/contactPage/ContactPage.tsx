@@ -23,7 +23,7 @@ const ContactPage = () => {
     });
 
     const handleSubmit = (values: typeof initialValues, { resetForm }: any) => {
-        console.log('Form Data:', values);
+        // console.log('Form Data:', values);
 
         // show success toaster
         toast.success('Your message has been sent successfully!',{

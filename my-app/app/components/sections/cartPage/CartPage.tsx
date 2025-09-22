@@ -52,7 +52,7 @@ const CartPage = () => {
     const [cart, setCart] = useState<CartItem[]>(getInitialCart);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    // disable loading after mount (we did lazy init)
+    // disable loading after mount
     useEffect(() => {
         setIsLoading(false);
     }, []);
@@ -114,7 +114,7 @@ const CartPage = () => {
                 <h1 className="text-3xl font-bold mb-6 text-[var(--main-color)]">Shopping Cart</h1>
 
                 {isLoading ? (
-                    // 🔹 Skeleton Table
+                    //  Skeleton Table
                     <div className="overflow-x-auto">
                         <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow">
                             <thead className="bg-[var(--main-color)] text-white">
@@ -134,7 +134,7 @@ const CartPage = () => {
                         </table>
                     </div>
                 ) : cart.length === 0 ? (
-                    // 🔹 Empty Cart
+                    //  Empty Cart
                     <div className="text-center py-20">
                         <p className="text-xl font-semibold text-gray-600 mb-4">Your Cart Is Empty</p>
                         <Link href="/products" className="inline-block px-6 py-3 bg-[var(--main-color)] text-white font-medium rounded-lg shadow hover:opacity-90 transition">
@@ -142,7 +142,7 @@ const CartPage = () => {
                         </Link>
                     </div>
                 ) : (
-                    // 🔹 Cart Items
+                    // Cart Items
                     <>
                         <div className="overflow-x-auto">
                             <table className="min-w-full border border-gray-200 bg-white rounded-lg shadow">

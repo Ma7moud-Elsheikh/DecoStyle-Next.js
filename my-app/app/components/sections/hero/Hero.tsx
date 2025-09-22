@@ -54,18 +54,27 @@ const Hero: React.FC = () => {
             <Swiper modules={[Navigation, Pagination, Autoplay, A11y]} slidesPerView={1} loop autoplay={{ delay: 4500, disableOnInteraction: false }} navigation={{ prevEl: '.hero-prev', nextEl: '.hero-next' }} className="mySwiper">
                 {slides.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <div className={`relative min-h-[100vh] flex items-center justify-center bg-center bg-cover bg-no-repeat bg-fixed ${styles.zoomBackground}`} style={{ backgroundImage: `url(${item.bg})` }}>
+                        <div
+                            className={`
+                            relative
+                            flex items-center justify-center
+                            bg-center bg-cover bg-no-repeat
+                            ${styles.zoomBackground}
+                            min-h-[70vh] sm:min-h-[85vh] lg:min-h-[100vh]
+                            `}
+                            style={{ backgroundImage: `url(${item.bg})` }}
+                        >
                             {/* Overlay */}
-                            <div className="absolute inset-0 bg-black/40 z-0"></div>
+                            <div className="absolute inset-0 bg-black/50 sm:bg-black/40 z-0"></div>
 
                             {/* Content */}
                             <div className="relative z-10 home-content m-auto text-center w-full">
                                 <CustomContainer>
                                     <div className="mx-auto max-w-3xl">
                                         <div className="overflow-hidden mb-6">
-                                            <h2 className={`text-white font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[70px] ${styles.MoveTop}`}>{item.title}</h2>
+                                            <h2 className={`text-white font-extrabold text-3xl sm:text-5xl md:text-6xl lg:text-[70px] ${styles.MoveTop}`}>{item.title}</h2>
 
-                                            <p className={`text-white/90 mt-4 text-base sm:text-lg ${styles.MoveTop}`}>{item.desc}</p>
+                                            <p className={`text-white/90 mt-4 text-sm sm:text-lg md:text-xl ${styles.MoveTop}`}>{item.desc}</p>
 
                                             <div className="mt-8 flex items-center justify-center gap-4">
                                                 <Link href={item.primaryHref} className={`inline-block !px-4 !py-2 md:!px-6 md:!py-3 lg:!px-8 lg:!py-4 bg-[var(--main-color)] text-white font-bold rounded transition duration-300 mainBtn ${styles.MoveRight}`}>

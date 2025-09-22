@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FaAnglesRight } from 'react-icons/fa6';
 
 type RelatedProductsProps = {
     category: string;
@@ -14,14 +15,26 @@ type RelatedProductsProps = {
 const RelatedProducts = ({ category, products }: RelatedProductsProps) => {
     const pathname = usePathname();
 
+    if (!products.length) {
+        return <div className="p-6 bg-gray-50 rounded-xl text-center text-gray-500">No related products found</div>;
+    }
+
     return (
-        <div className="flex flex-col space-y-4">
-            {products.map((product, i) => (
-                <Link key={i} href={`/products/${product.slug}`} className={`flex items-center justify-between px-6 py-4 text-lg font-medium bg-gray-100 hover:bg-orange-500 hover:text-white transition-all ${pathname === `/products/${product.slug}` ? 'bg-orange-500 text-white' : ''}`}>
-                    <span>{product.name}</span>
-                    <i className="fa-solid fa-angles-right"></i>
-                </Link>
-            ))}
+        <div className="flex flex-col space-y-3">
+            {products.map((product, i) => {
+                const active = pathname === `/products/${product.slug}`;
+                return (
+                    <Link
+                        key={i}
+                        href={`/products/${product.slug}`}
+                        className={`!flex items-center justify-between mainBtn px-5 py-3 rounded-lg font-medium transition-all shadow-sm
+                            ${active ? 'bg-[var(--main-color)] text-white' : 'bg-gray-100 hover:bg-[var(--third-color)] hover:text-white'}`}
+                    >
+                        <span>{product.name}</span>
+                        <FaAnglesRight size={18} />
+                    </Link>
+                );
+            })}
         </div>
     );
 };
