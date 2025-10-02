@@ -7,9 +7,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { BsCart4 } from 'react-icons/bs';
 import { FaAngleDown, FaBarsStaggered, FaMagnifyingGlass } from 'react-icons/fa6';
 
-const MAIN = 'var(--main-color)';
-const THIRD = 'var(--third-color)';
-
 // navLinks
 const navLinks = [
     { href: '/', label: 'Home' },
@@ -33,10 +30,10 @@ export default function Navbar() {
 
     const [isAllowed, setIsAllowed] = useState<boolean | null>(null);
 
-    // 1) ref dropdown
+    // ref dropdown
     const dropdownRef = useRef<HTMLLIElement>(null);
 
-    // 2) effect to handle outside click
+    // effect to handle outside click
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -48,6 +45,7 @@ export default function Navbar() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    // check token for "login/logout"
     useEffect(() => {
         const checkToken = () => {
             const token = localStorage.getItem('token');
@@ -159,8 +157,8 @@ export default function Navbar() {
                                 <button
                                     onClick={() => setIsOpen((prev) => !prev)}
                                     className={`
-            ${baseText} navEl inline-flex items-center gap-1 px-2 py-5 transition-colors duration-300 hover:text-[var(--main-color)]
-        `}
+                                            ${baseText} navEl inline-flex items-center gap-1 px-2 py-5 transition-colors duration-300 hover:text-[var(--main-color)]
+                                        `}
                                     aria-haspopup="true"
                                     aria-expanded={isOpen}
                                     style={{ fontFamily: 'var(--font)' }}
@@ -180,7 +178,7 @@ export default function Navbar() {
                                         <li
                                             key={p.href}
                                             className="m-0 border-b border-[#ccc] last:border-b-0"
-                                            onClick={() => setIsOpen(false)} // يقفل في الموبايل بعد الضغط
+                                            onClick={() => setIsOpen(false)}
                                         >
                                             <Link
                                                 href={p.href}
