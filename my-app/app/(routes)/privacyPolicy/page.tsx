@@ -1,4 +1,4 @@
-import PrivacyPage from '@/app/components/sections/PrivactPolicy/PrivacyPage';
+import PrivacyPage from '@/app/components/sections/PrivacyPolicy/PrivacyPage';
 import BreadCrumb from '@/app/components/ui/bredCrumb/BreadCrumb';
 import React from 'react';
 

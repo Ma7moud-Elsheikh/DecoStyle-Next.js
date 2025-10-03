@@ -17,7 +17,7 @@ const navLinks = [
 // pagesDropdown
 const pagesDropdown = [
     { href: '/privacyPolicy', label: 'Privacy Policy', delay: 400 },
-    { href: '/comingSoon', label: 'Coming Soon', delay: 500 }
+    { href: '/coming-soon', label: 'Coming Soon', delay: 500 }
 ];
 
 export default function Navbar() {

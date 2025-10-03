@@ -26,7 +26,7 @@ const ProductModal = ({ product, onClose }: { product: ProductType | null; onClo
 
             <Dialog.Panel className="relative bg-white rounded-xl shadow-xl max-w-4xl w-full p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Close Button */}
-                <button onClick={onClose} className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 transition-colors duration-200 z-20">
+                <button onClick={onClose} className="absolute top-4 cursor-pointer right-4 text-gray-600 hover:text-gray-800 transition-colors duration-200 z-20">
                     <FiX size={24} />
                 </button>
 

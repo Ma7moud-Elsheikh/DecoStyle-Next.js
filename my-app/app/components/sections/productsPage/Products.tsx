@@ -6,7 +6,7 @@ import type { ReactNode } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import CustomContainer from '../../common/CustomContainer';
 import ProductPageCards, { ProductCard } from '../../ui/productsPage/ProductPageCards';
-import ProductCardSkeleton from '../../ui/productsPage/skilton/ProductCardSkeleton';
+import ProductCardSkeleton from '../../ui/productsPage/skelton/ProductCardSkeleton';
 
 // categories
 const DEFAULT_CATEGORIES = ['all', 'design', 'anime', 'nature', 'animal'] as const;
@@ -169,10 +169,10 @@ const ProductsPage: React.FC<Props> = ({
                 ];
                 // console.log(uniqueCategories);
                 setCategoriesData(uniqueCategories as Category[]);
-            } catch (error) {
-                setIsLoading(true);
-            } finally {
                 setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+                setIsLoading(true);
             }
         };
 

@@ -1,12 +1,12 @@
 'use client';
 
-import React from 'react';
-import Navbar from '../layout/Navbar';
-import Footer from '../layout/Footer';
-import { Toaster } from 'react-hot-toast';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
+import Footer from '../layout/Footer';
+import Navbar from '../layout/Navbar';
 import ScrollToTopButton from '../ui/scrollToTop/ScrollToTopButton';
 
 type props = {
@@ -14,6 +14,7 @@ type props = {
 };
 
 const LayoutProvider = ({ children }: props) => {
+    const pathname = usePathname();
     useEffect(() => {
         AOS.init({
             duration: 1000,
@@ -22,13 +23,14 @@ const LayoutProvider = ({ children }: props) => {
         });
         AOS.refresh();
     }, []);
+    const isComingSoon = pathname === '/coming-soon';
     return (
         <div>
             <Toaster />
-            <Navbar />
+            {!isComingSoon && <Navbar />}
             {children}
-            <Footer />
-            <ScrollToTopButton />
+            {!isComingSoon && <Footer />}
+            {!isComingSoon && <ScrollToTopButton />}
         </div>
     );
 };
